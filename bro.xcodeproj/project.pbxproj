@@ -14,6 +14,9 @@
 		D65E45EE20AAE01300FAC59D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D65E45EC20AAE01300FAC59D /* LaunchScreen.storyboard */; };
 		D65E45F920AAE01300FAC59D /* broTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65E45F820AAE01300FAC59D /* broTests.swift */; };
 		D65E460420AAE01300FAC59D /* broUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65E460320AAE01300FAC59D /* broUITests.swift */; };
+		D65E461320AAE32000FAC59D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D65E461220AAE32000FAC59D /* MapKit.framework */; };
+		D65E461720AB070300FAC59D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D65E461620AB070300FAC59D /* CoreLocation.framework */; };
+		D65E461920AB206100FAC59D /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D65E461820AB206100FAC59D /* ContactsUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		D65E45FF20AAE01300FAC59D /* broUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = broUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65E460320AAE01300FAC59D /* broUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = broUITests.swift; sourceTree = "<group>"; };
 		D65E460520AAE01300FAC59D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D65E461220AAE32000FAC59D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D65E461620AB070300FAC59D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		D65E461820AB206100FAC59D /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D65E461920AB206100FAC59D /* ContactsUI.framework in Frameworks */,
+				D65E461720AB070300FAC59D /* CoreLocation.framework in Frameworks */,
+				D65E461320AAE32000FAC59D /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +90,7 @@
 				D65E45F720AAE01300FAC59D /* broTests */,
 				D65E460220AAE01300FAC59D /* broUITests */,
 				D65E45E120AAE01300FAC59D /* Products */,
+				D65E461120AAE31F00FAC59D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +133,16 @@
 				D65E460520AAE01300FAC59D /* Info.plist */,
 			);
 			path = broUITests;
+			sourceTree = "<group>";
+		};
+		D65E461120AAE31F00FAC59D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D65E461820AB206100FAC59D /* ContactsUI.framework */,
+				D65E461620AB070300FAC59D /* CoreLocation.framework */,
+				D65E461220AAE32000FAC59D /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -507,6 +527,7 @@
 				D65E460A20AAE01300FAC59D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D65E460B20AAE01300FAC59D /* Build configuration list for PBXNativeTarget "broTests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +536,7 @@
 				D65E460D20AAE01300FAC59D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D65E460E20AAE01300FAC59D /* Build configuration list for PBXNativeTarget "broUITests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +545,7 @@
 				D65E461020AAE01300FAC59D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
