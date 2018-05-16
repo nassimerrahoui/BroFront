@@ -17,6 +17,9 @@
 		D65E461320AAE32000FAC59D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D65E461220AAE32000FAC59D /* MapKit.framework */; };
 		D65E461720AB070300FAC59D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D65E461620AB070300FAC59D /* CoreLocation.framework */; };
 		D65E461920AB206100FAC59D /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D65E461820AB206100FAC59D /* ContactsUI.framework */; };
+		D6C9139C20AC235000BDD1C2 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9139B20AC235000BDD1C2 /* HomeController.swift */; };
+		D6C9139E20AC266200BDD1C2 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9139D20AC266200BDD1C2 /* SignInController.swift */; };
+		D6C913A020AC268000BDD1C2 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9139F20AC268000BDD1C2 /* SignUpController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		D65E461220AAE32000FAC59D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D65E461620AB070300FAC59D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D65E461820AB206100FAC59D /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
+		D6C9139B20AC235000BDD1C2 /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		D6C9139D20AC266200BDD1C2 /* SignInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
+		D6C9139F20AC268000BDD1C2 /* SignUpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +115,9 @@
 			children = (
 				D65E45E320AAE01300FAC59D /* AppDelegate.swift */,
 				D65E45E520AAE01300FAC59D /* ViewController.swift */,
+				D6C9139B20AC235000BDD1C2 /* HomeController.swift */,
+				D6C9139D20AC266200BDD1C2 /* SignInController.swift */,
+				D6C9139F20AC268000BDD1C2 /* SignUpController.swift */,
 				D65E45E720AAE01300FAC59D /* Main.storyboard */,
 				D65E45EA20AAE01300FAC59D /* Assets.xcassets */,
 				D65E45EC20AAE01300FAC59D /* LaunchScreen.storyboard */,
@@ -279,8 +288,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6C913A020AC268000BDD1C2 /* SignUpController.swift in Sources */,
 				D65E45E620AAE01300FAC59D /* ViewController.swift in Sources */,
+				D6C9139E20AC266200BDD1C2 /* SignInController.swift in Sources */,
 				D65E45E420AAE01300FAC59D /* AppDelegate.swift in Sources */,
+				D6C9139C20AC235000BDD1C2 /* HomeController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
