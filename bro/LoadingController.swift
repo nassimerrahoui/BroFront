@@ -11,8 +11,8 @@ import UIKit
 
 class LoadingController: UIViewController {
 
-    @IBOutlet weak var testLabel: UILabel!
-    var token : String = ""
+    let userDefault = UserDefaults.standard
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,17 +20,17 @@ class LoadingController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
+        
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        if ( token != "") {
-            testLabel.text = "Token !!!"
+        let token = userDefault.string(forKey: "token")
+        
+        if ( token != nil) {
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
             self.present(nextViewController, animated:false)
         } else {
-            testLabel.text = "Pas de token! :("
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "NavigationConnection") as! UINavigationController
             self.present(nextViewController, animated:false)
         }
-        
     }
 
 }

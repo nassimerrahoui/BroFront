@@ -15,8 +15,16 @@ class SignInController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UsernameTextField.text = nil
-        PasswordTextField.text = nil
+        
+        UsernameTextField.layer.borderWidth = 1
+        UsernameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        UsernameTextField.layer.cornerRadius = 10
+        PasswordTextField.layer.borderWidth = 1
+        PasswordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        PasswordTextField.layer.cornerRadius = 10
+
+        UsernameTextField.text = ""
+        PasswordTextField.text = ""
         
         UsernameTextField.placeholder = "Username"
         PasswordTextField.placeholder = "Password"

@@ -20,23 +20,58 @@ class SignUpController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        FirstNameTextField.text = nil
-        LastNameTextField.text = nil
-        EmailTextField.text = nil
-        UsernameTextField.text = nil
-        PasswordTextField.text = nil
-        PasswordConfirmationTextField.text = nil
+        
+        FirstNameTextField.layer.borderWidth = 1
+        FirstNameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        FirstNameTextField.layer.cornerRadius = 10
+        LastNameTextField.layer.borderWidth = 1
+        LastNameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        LastNameTextField.layer.cornerRadius = 10
+        EmailTextField.layer.borderWidth = 1
+        EmailTextField.layer.borderColor = UIColor.lightGray.cgColor
+        EmailTextField.layer.cornerRadius = 10
+        UsernameTextField.layer.borderWidth = 1
+        UsernameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        UsernameTextField.layer.cornerRadius = 10
+        PasswordTextField.layer.borderWidth = 1
+        PasswordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        PasswordTextField.layer.cornerRadius = 10
+        PasswordConfirmationTextField.layer.borderWidth = 1
+        PasswordConfirmationTextField.layer.borderColor = UIColor.lightGray.cgColor
+        PasswordConfirmationTextField.layer.cornerRadius = 10
+        
+        FirstNameTextField.text = ""
+        LastNameTextField.text = ""
+        EmailTextField.text = ""
+        UsernameTextField.text = ""
+        PasswordTextField.text = ""
+        PasswordConfirmationTextField.text = ""
 
         FirstNameTextField.placeholder = "First name"
-        
         LastNameTextField.placeholder = "Last name"
         EmailTextField.placeholder = "Email address"
         UsernameTextField.placeholder = "Username"
         PasswordTextField.placeholder = "Password"
         PasswordConfirmationTextField.placeholder = "Password Confirmation"
-        let maxDate: Date = Date()
+    }
 
-        BirthDatePicker.datePickerMode = .date
-        BirthDatePicker.maximumDate = maxDate
+    @IBAction func registration(_ sender: Any) {
+        let apiRequest = ApiRequest.init()
+        let registration = apiRequest.registration(
+            firstName: FirstNameTextField.text!,
+            lastName: LastNameTextField.text!,
+            username: UsernameTextField.text!,
+            email: EmailTextField.text!,
+            password: PasswordTextField.text!)
+        if registration {
+            let connection = apiRequest.connection(
+                email: EmailTextField.text!,
+                password: PasswordTextField.text!)
+            if connection {
+                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
+                self.present(nextViewController, animated:true)
+            }
+        }
     }
 }

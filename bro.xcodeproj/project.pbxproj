@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D625989820B6BD24008139F7 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D625989720B6BD24008139F7 /* ApiRequest.swift */; };
 		D65E45E420AAE01300FAC59D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65E45E320AAE01300FAC59D /* AppDelegate.swift */; };
 		D65E45E620AAE01300FAC59D /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65E45E520AAE01300FAC59D /* MapController.swift */; };
 		D65E45E920AAE01300FAC59D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D65E45E720AAE01300FAC59D /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D625989720B6BD24008139F7 /* ApiRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
 		D65E45E020AAE01300FAC59D /* bro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65E45E320AAE01300FAC59D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D65E45E520AAE01300FAC59D /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				D6C9139B20AC235000BDD1C2 /* ConnectionController.swift */,
 				D6C9139D20AC266200BDD1C2 /* SignInController.swift */,
 				D6C9139F20AC268000BDD1C2 /* SignUpController.swift */,
+				D625989720B6BD24008139F7 /* ApiRequest.swift */,
 				D65E45E720AAE01300FAC59D /* Main.storyboard */,
 				D65E45EA20AAE01300FAC59D /* Assets.xcassets */,
 				D65E45EC20AAE01300FAC59D /* LaunchScreen.storyboard */,
@@ -296,6 +299,7 @@
 				D65E45E620AAE01300FAC59D /* MapController.swift in Sources */,
 				D6C9139E20AC266200BDD1C2 /* SignInController.swift in Sources */,
 				D65E45E420AAE01300FAC59D /* AppDelegate.swift in Sources */,
+				D625989820B6BD24008139F7 /* ApiRequest.swift in Sources */,
 				D6C9139C20AC235000BDD1C2 /* ConnectionController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
