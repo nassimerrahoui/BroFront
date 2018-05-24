@@ -15,15 +15,13 @@ class ConnectionController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        signInButton.backgroundColor = UIColor.blue
         signInButton.layer.cornerRadius = 10
         signInButton.layer.borderWidth = 1
         signInButton.layer.borderColor = UIColor.lightGray.cgColor
   
-        signUpButton.backgroundColor = UIColor.blue
         signUpButton.layer.cornerRadius = 10
         signUpButton.layer.borderWidth = 1
-        signUpButton.layer.borderColor = UIColor.darkGray.cgColor
+        signUpButton.layer.borderColor = UIColor.lightGray.cgColor
     }
     
 }

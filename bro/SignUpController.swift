@@ -57,17 +57,17 @@ class SignUpController: UIViewController {
 
     @IBAction func registration(_ sender: Any) {
         let apiRequest = ApiRequest.init()
-        let registration = apiRequest.registration(
+        let isRegister = apiRequest.registration(
             firstName: FirstNameTextField.text!,
             lastName: LastNameTextField.text!,
             username: UsernameTextField.text!,
             email: EmailTextField.text!,
             password: PasswordTextField.text!)
-        if registration {
-            let connection = apiRequest.connection(
+        if isRegister {
+            let isConnected = apiRequest.connection(
                 email: EmailTextField.text!,
                 password: PasswordTextField.text!)
-            if connection {
+            if isConnected {
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                 let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
                 self.present(nextViewController, animated:true)

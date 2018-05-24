@@ -26,7 +26,20 @@ class SignInController: UIViewController {
         UsernameTextField.text = ""
         PasswordTextField.text = ""
         
-        UsernameTextField.placeholder = "Username"
+        UsernameTextField.placeholder = "Email Address"
         PasswordTextField.placeholder = "Password"
+    }
+    
+    @IBAction func connection(_ sender: Any) {
+        let apiRequest = ApiRequest.init()
+        let isConnected = apiRequest.connection(
+            email: UsernameTextField.text!,
+            password: PasswordTextField.text!)
+        print("isConnected : \(isConnected)")
+        if (isConnected == true) {
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
+            self.present(nextViewController, animated:true)
+        }
     }
 }

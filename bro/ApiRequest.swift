@@ -9,6 +9,8 @@
 import Foundation
 
 class ApiRequest {
+    
+    let urlAPI = "https://7d77a452.ngrok.io"
 
     func registration(firstName: String, lastName: String, username: String, email: String, password: String) -> Bool {
         var res = true
@@ -20,7 +22,7 @@ class ApiRequest {
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        let url = URL(string: "https://7d77a452.ngrok.io/user/create")!
+        let url = URL(string: "\(urlAPI)/user/create")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
@@ -42,14 +44,15 @@ class ApiRequest {
     }
     
     func connection(email: String, password: String) -> Bool{
-        var res = true
+        let userDefault = UserDefaults.standard
+        var res = false
         let json: [String: Any] = [
             "email": email,
             "password": password,
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        let url = URL(string: "https://7d77a452.ngrok.io/user/auth")!
+        let url = URL(string: "\(urlAPI)/user/auth")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
@@ -64,10 +67,12 @@ class ApiRequest {
             let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
             if let responseJSON = responseJSON as? [String: Any] {
                 print(responseJSON)
-                res = true
             }
+            res = false
+            print("test : \(response)")
         }
         task.resume()
+//        userDefault.set(token, forKey: "token")
         return res
     }
 }
