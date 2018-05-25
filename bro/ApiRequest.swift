@@ -69,7 +69,7 @@ class ApiRequest {
                 print(responseJSON)
             }
             res = false
-            print("test : \(response)")
+            print("test : \(String(describing: response))")
         }
         task.resume()
 //        userDefault.set(token, forKey: "token")
