@@ -31,15 +31,20 @@ class SignInController: UIViewController {
     }
     
     @IBAction func connection(_ sender: Any) {
+        
         let apiRequest = ApiRequest.init()
         let isConnected = apiRequest.connection(
             email: UsernameTextField.text!,
             password: PasswordTextField.text!)
-        print("isConnected : \(isConnected)")
-        if (isConnected == true) {
+        print("isConnected : \(String(describing: isConnected))")
+        //@TODO retour asynchrone, attendre une valeur de retour,
+        // Il faudrait que connection renvoye le numéro d'erreur à la place d'un booléen
+        if (isConnected != nil) {
+            print("connected")
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
             self.present(nextViewController, animated:true)
         }
     }
+    
 }

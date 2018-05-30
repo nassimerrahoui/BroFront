@@ -10,7 +10,7 @@ import Foundation
 
 class ApiRequest {
     
-    let urlAPI = "https://7d77a452.ngrok.io"
+    let urlAPI = "https://c3ffeb93.ngrok.io"
 
     func registration(firstName: String, lastName: String, username: String, email: String, password: String) -> Bool {
         var res = true
@@ -43,16 +43,57 @@ class ApiRequest {
         return res
     }
     
-    func connection(email: String, password: String) -> Bool{
-        let userDefault = UserDefaults.standard
-        var res = false
+    func connection(email: String, password: String) -> String? {
         let json: [String: Any] = [
             "email": email,
             "password": password,
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
+        var token : String? = nil
         let url = URL(string: "\(urlAPI)/user/auth")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+
+        let group = DispatchGroup()
+        group.enter()
+        
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    return
+                }
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let dictionnary = jsonResponse as? [String: Any] {
+                        if let number = dictionnary["token"] as? String {
+                            token = number
+                        }
+                    }
+                } catch {
+                    print(error)
+                }
+//                print(response as Any)
+//                print(token)
+                }.resume()
+            group.leave()
+        }
+        sleep(1)
+        group.wait()
+        return token
+    }
+    
+    func logout(token: String) -> Bool{
+        var res = true
+        let json: [String: Any] = [
+            "token": token,
+            ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let url = URL(string: "\(urlAPI)/user/logout")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
@@ -68,11 +109,9 @@ class ApiRequest {
             if let responseJSON = responseJSON as? [String: Any] {
                 print(responseJSON)
             }
-            res = false
-            print("test : \(String(describing: response))")
         }
         task.resume()
-//        userDefault.set(token, forKey: "token")
         return res
     }
+
 }

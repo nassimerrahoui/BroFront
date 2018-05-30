@@ -67,7 +67,7 @@ class SignUpController: UIViewController {
             let isConnected = apiRequest.connection(
                 email: EmailTextField.text!,
                 password: PasswordTextField.text!)
-            if isConnected {
+            if (isConnected != nil) {
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                 let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
                 self.present(nextViewController, animated:true)

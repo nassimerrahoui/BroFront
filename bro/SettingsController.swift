@@ -15,11 +15,16 @@ class SettingsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+    //@TODO n'a pas été tester attention
     @IBAction func logOut(_ sender: Any) {
+        let token = userDefault.string(forKey: "token")
+        let apiRequest = ApiRequest.init()
+        let logout = apiRequest.logout(token: token!)
+        if logout {
         userDefault.removeObject(forKey: "token")
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Loading")
         self.present(nextViewController, animated:false)
+        }
     }
 }
