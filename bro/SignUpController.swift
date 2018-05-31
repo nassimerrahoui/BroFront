@@ -17,7 +17,7 @@ class SignUpController: UIViewController {
     @IBOutlet weak var PasswordTextField: UITextField!
     @IBOutlet weak var PasswordConfirmationTextField: UITextField!
     @IBOutlet weak var BirthDatePicker: UIDatePicker!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,7 +46,7 @@ class SignUpController: UIViewController {
         UsernameTextField.text = ""
         PasswordTextField.text = ""
         PasswordConfirmationTextField.text = ""
-
+        
         FirstNameTextField.placeholder = "First name"
         LastNameTextField.placeholder = "Last name"
         EmailTextField.placeholder = "Email address"
@@ -54,24 +54,29 @@ class SignUpController: UIViewController {
         PasswordTextField.placeholder = "Password"
         PasswordConfirmationTextField.placeholder = "Password Confirmation"
     }
-
+    
     @IBAction func registration(_ sender: Any) {
         let apiRequest = ApiRequest.init()
-        let isRegister = apiRequest.registration(
+        apiRequest.registration(
             firstName: FirstNameTextField.text!,
             lastName: LastNameTextField.text!,
             username: UsernameTextField.text!,
             email: EmailTextField.text!,
-            password: PasswordTextField.text!)
-        if isRegister {
-            let isConnected = apiRequest.connection(
-                email: EmailTextField.text!,
-                password: PasswordTextField.text!)
-            if (isConnected != nil) {
-                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
-                self.present(nextViewController, animated:true)
-            }
+            password: PasswordTextField.text!) { (isRegister) -> (Void) in
+                if isRegister {
+                    apiRequest.connection(
+                        email: self.EmailTextField.text!,
+                        password: self.PasswordTextField.text!) { (token) -> (Void) in
+                            if let token = token {
+                                let defaults = UserDefaults.standard
+                                defaults.set(token, forKey: "token")
+                                print("connected")
+                                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
+                                self.present(nextViewController, animated:true)
+                            }
+                    }
+                }
         }
     }
 }

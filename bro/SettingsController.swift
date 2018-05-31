@@ -19,12 +19,14 @@ class SettingsController: UIViewController {
     @IBAction func logOut(_ sender: Any) {
         let token = userDefault.string(forKey: "token")
         let apiRequest = ApiRequest.init()
-        let logout = apiRequest.logout(token: token!)
-        if logout {
-        userDefault.removeObject(forKey: "token")
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Loading")
-        self.present(nextViewController, animated:false)
+        apiRequest.logout(token: token!) { (isLogout) -> (Void)
+            in
+            if isLogout {
+                self.userDefault.removeObject(forKey: "token")
+                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Loading")
+                self.present(nextViewController, animated:false)
+            }
         }
     }
 }

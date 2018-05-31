@@ -33,16 +33,15 @@ class SignInController: UIViewController {
     @IBAction func connection(_ sender: Any) {
         
         let apiRequest = ApiRequest.init()
-        let connectionToken = apiRequest.connection(
-            email: UsernameTextField.text!,
-            password: PasswordTextField.text!)
-        print("isConnected : \(String(describing: connectionToken))")
-        if (connectionToken != nil) {
-            print("connected")
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
-            self.present(nextViewController, animated:true)
+        apiRequest.connection(email: UsernameTextField.text!, password: PasswordTextField.text!) { (token) -> (Void) in
+            if let token = token {
+                let defaults = UserDefaults.standard
+                defaults.set(token, forKey: "token")
+                print("connected")
+                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
+                self.present(nextViewController, animated:true)
+            }
         }
     }
-    
 }
