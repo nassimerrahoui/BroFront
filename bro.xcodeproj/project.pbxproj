@@ -102,6 +102,7 @@
 		D623CE9120BFE20900F617F7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D625989720B6BD24008139F7 /* ApiRequest.swift */,
 				D6C9139B20AC235000BDD1C2 /* ConnectionController.swift */,
 				D6EF817F20B59EBE003324D6 /* LoadingController.swift */,
 				D65E45E520AAE01300FAC59D /* MapController.swift */,
@@ -138,7 +139,6 @@
 			children = (
 				D65E45E320AAE01300FAC59D /* AppDelegate.swift */,
 				D623CE9120BFE20900F617F7 /* Controllers */,
-				D625989720B6BD24008139F7 /* ApiRequest.swift */,
 				D65E45E720AAE01300FAC59D /* Main.storyboard */,
 				D65E45EA20AAE01300FAC59D /* Assets.xcassets */,
 				D65E45EC20AAE01300FAC59D /* LaunchScreen.storyboard */,
