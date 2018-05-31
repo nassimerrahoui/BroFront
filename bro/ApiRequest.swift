@@ -10,7 +10,7 @@ import Foundation
 
 class ApiRequest {
     
-    let urlAPI = "https://c3ffeb93.ngrok.io"
+    let urlAPI = "https://7a98ebd0.ngrok.io"
 
     func registration(firstName: String, lastName: String, username: String, email: String, password: String) -> Bool {
         var res = true
@@ -43,7 +43,7 @@ class ApiRequest {
         return res
     }
     
-    func connection(email: String, password: String) -> String? {
+    func connection(email: String, password: String) {
         let json: [String: Any] = [
             "email": email,
             "password": password,
@@ -57,37 +57,27 @@ class ApiRequest {
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
 
-        let group = DispatchGroup()
-        group.enter()
         
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {
-                    print(error?.localizedDescription ?? "No data")
-                    return
-                }
-                do {
-                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                    if let dictionnary = jsonResponse as? [String: Any] {
-                        if let number = dictionnary["token"] as? String {
-                            token = number
-                        }
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            do {
+                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                if let dictionnary = jsonResponse as? [String: Any] {
+                    if let number = dictionnary["token"] as? String {
+                        token = number
                     }
-                } catch {
-                    print(error)
                 }
-//                print(response as Any)
-//                print(token)
-                }.resume()
-            group.leave()
-        }
-        sleep(1)
-        group.wait()
-        return token
+            } catch {
+                print(error)
+            }
+        }.resume()
     }
     
     func logout(token: String) -> Bool{
-        var res = true
+        let res = true
         let json: [String: Any] = [
             "token": token,
             ]
@@ -102,7 +92,6 @@ class ApiRequest {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
-                res = false
                 return
             }
             let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])

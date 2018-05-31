@@ -12,6 +12,7 @@ class User {
     let id : NSObject
     var firstName, lastName, username, emailAddress : String
     var isGeolocalised : Bool
+    var position : Position
     
     init(id : NSObject, firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
         self.id = id
@@ -20,5 +21,10 @@ class User {
         self.emailAddress = emailAddress
         self.username = username
         self.isGeolocalised = isGeolocalised
+        self.position = Position()
+    }
+    
+    func set(position : Position){
+        self.position = position
     }
 }
