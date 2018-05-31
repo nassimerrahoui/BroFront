@@ -420,6 +420,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="myMap" destination="DrB-4l-3Eb" id="0oI-oz-j3z"/>
+                        <outlet property="searchBarMap" destination="Pg2-fj-Qxn" id="r1O-v0-fFR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

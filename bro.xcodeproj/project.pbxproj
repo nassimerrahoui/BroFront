@@ -246,6 +246,11 @@
 					D65E45DF20AAE01300FAC59D = {
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					D65E45F320AAE01300FAC59D = {
 						CreatedOnToolsVersion = 8.3.3;

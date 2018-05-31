@@ -9,13 +9,16 @@
 import UIKit
 import MapKit
 
-class MapController: UIViewController, MKMapViewDelegate {
+class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var myMap: MKMapView!
+    @IBOutlet var searchBarMap: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBarMap.delegate = self
         myMap.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
+
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -32,6 +35,28 @@ class MapController: UIViewController, MKMapViewDelegate {
         DispatchQueue.main.async {
             self.myMap.setRegion(region , animated: true)
         }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBarMap.resignFirstResponder()
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(searchBarMap.text!) { (placemarks:[CLPlacemark]?, error:Error?) in
+            if error == nil {
+                
+                let placemark = placemarks?.first
+                let anno = MKPointAnnotation()
+                
+                anno.coordinate = (placemark?.location?.coordinate)!
+                anno.title = self.searchBarMap.text!
+                
+                self.myMap.addAnnotation(anno)
+                self.myMap.selectAnnotation(anno, animated: true)
+                
+            } else {
+                print(error?.localizedDescription ?? "error")
+            }
+        }
+            
     }
 }
 
