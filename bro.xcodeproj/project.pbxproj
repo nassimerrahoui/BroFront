@@ -10,6 +10,9 @@
 		D60FDC7A20B8315400D7E8D4 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FDC7920B8315400D7E8D4 /* SettingsController.swift */; };
 		D60FDC7C20B8370B00D7E8D4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FDC7B20B8370B00D7E8D4 /* User.swift */; };
 		D623CE9020BFDDA000F617F7 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = D623CE8F20BFDDA000F617F7 /* Position.swift */; };
+		D623CE9320C0223400F617F7 /* BroTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D623CE9220C0223400F617F7 /* BroTableViewCell.swift */; };
+		D623CE9520C02A1700F617F7 /* BroTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D623CE9420C02A1700F617F7 /* BroTableViewController.swift */; };
+		D623CE9720C0319D00F617F7 /* Bro.swift in Sources */ = {isa = PBXBuildFile; fileRef = D623CE9620C0319D00F617F7 /* Bro.swift */; };
 		D625989820B6BD24008139F7 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D625989720B6BD24008139F7 /* ApiRequest.swift */; };
 		D65E45E420AAE01300FAC59D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65E45E320AAE01300FAC59D /* AppDelegate.swift */; };
 		D65E45E620AAE01300FAC59D /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65E45E520AAE01300FAC59D /* MapController.swift */; };
@@ -48,6 +51,9 @@
 		D60FDC7920B8315400D7E8D4 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		D60FDC7B20B8370B00D7E8D4 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D623CE8F20BFDDA000F617F7 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		D623CE9220C0223400F617F7 /* BroTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroTableViewCell.swift; sourceTree = "<group>"; };
+		D623CE9420C02A1700F617F7 /* BroTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroTableViewController.swift; sourceTree = "<group>"; };
+		D623CE9620C0319D00F617F7 /* Bro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bro.swift; sourceTree = "<group>"; };
 		D625989720B6BD24008139F7 /* ApiRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
 		D65E45E020AAE01300FAC59D /* bro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65E45E320AAE01300FAC59D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,11 +110,13 @@
 			children = (
 				D625989720B6BD24008139F7 /* ApiRequest.swift */,
 				D6C9139B20AC235000BDD1C2 /* ConnectionController.swift */,
+				D623CE9420C02A1700F617F7 /* BroTableViewController.swift */,
 				D6EF817F20B59EBE003324D6 /* LoadingController.swift */,
 				D65E45E520AAE01300FAC59D /* MapController.swift */,
 				D60FDC7920B8315400D7E8D4 /* SettingsController.swift */,
 				D6C9139D20AC266200BDD1C2 /* SignInController.swift */,
 				D6C9139F20AC268000BDD1C2 /* SignUpController.swift */,
+				D623CE9220C0223400F617F7 /* BroTableViewCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -142,8 +150,9 @@
 				D65E45E720AAE01300FAC59D /* Main.storyboard */,
 				D65E45EA20AAE01300FAC59D /* Assets.xcassets */,
 				D65E45EC20AAE01300FAC59D /* LaunchScreen.storyboard */,
-				D60FDC7B20B8370B00D7E8D4 /* User.swift */,
+				D623CE9620C0319D00F617F7 /* Bro.swift */,
 				D623CE8F20BFDDA000F617F7 /* Position.swift */,
+				D60FDC7B20B8370B00D7E8D4 /* User.swift */,
 				D65E45EF20AAE01300FAC59D /* Info.plist */,
 			);
 			path = bro;
@@ -316,10 +325,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D623CE9320C0223400F617F7 /* BroTableViewCell.swift in Sources */,
+				D623CE9720C0319D00F617F7 /* Bro.swift in Sources */,
 				D60FDC7A20B8315400D7E8D4 /* SettingsController.swift in Sources */,
 				D6EF818020B59EBE003324D6 /* LoadingController.swift in Sources */,
 				D6C913A020AC268000BDD1C2 /* SignUpController.swift in Sources */,
 				D65E45E620AAE01300FAC59D /* MapController.swift in Sources */,
+				D623CE9520C02A1700F617F7 /* BroTableViewController.swift in Sources */,
 				D6C9139E20AC266200BDD1C2 /* SignInController.swift in Sources */,
 				D60FDC7C20B8370B00D7E8D4 /* User.swift in Sources */,
 				D65E45E420AAE01300FAC59D /* AppDelegate.swift in Sources */,

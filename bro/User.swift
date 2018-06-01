@@ -8,20 +8,14 @@
 
 import Foundation
 
-class User {
-    let id : NSObject
-    var firstName, lastName, username, emailAddress : String
-    var isGeolocalised : Bool
-    var position : Position
+class User : Bro {
+    var firstName, lastName, emailAddress : String
     
-    init(id : NSObject, firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
-        self.id = id
+    init(id : String, firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
         self.firstName = firstName
         self.lastName = lastName
         self.emailAddress = emailAddress
-        self.username = username
-        self.isGeolocalised = isGeolocalised
-        self.position = Position()
+        super.init()
     }
     
     func set(position : Position){
