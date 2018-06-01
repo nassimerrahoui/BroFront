@@ -12,36 +12,6 @@ class ApiRequest {
     
     let urlAPI = "https://7a98ebd0.ngrok.io"
     
-    func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
-        let url = URL(string: "\(urlAPI)/bromance/\(tokenOfUser)")
-        if let url = url {
-            var request = URLRequest(url : url)
-            request.httpMethod = "POST"
-            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {
-                    print(error?.localizedDescription ?? "No data")
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
-                    return
-                }
-                do {
-                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                    if let dictionnary = jsonResponse as? [String: Any] {
-                        if let test = dictionnary[""] as? String {
-                        }
-                    }
-                } catch {
-                    print(error)
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
-                }
-            }.resume()
-        }
-    }
-    
     func registration(firstName: String, lastName: String, username: String, email: String, password: String, completion: @escaping ((Bool)->(Void))) {
         let json: [String: Any] = [
             "firstName": firstName,
@@ -79,6 +49,7 @@ class ApiRequest {
             "password": password,
             ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        var token : String? = nil
         let url = URL(string: "\(urlAPI)/user/auth")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -98,7 +69,8 @@ class ApiRequest {
             do {
                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                 if let dictionnary = jsonResponse as? [String: Any] {
-                    if let token = dictionnary["token"] as? String {
+                    if let number = dictionnary["token"] as? String {
+                        token = number
                         DispatchQueue.main.async {
                             completion(token)
                         }

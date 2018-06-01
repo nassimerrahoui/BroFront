@@ -13,7 +13,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var myMap: MKMapView!
     @IBOutlet var searchBarMap: UISearchBar!
-    
+    var pin:Position!
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBarMap.delegate = self
@@ -32,9 +32,20 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         let width = 2000.0 // meters
         let height = 2000.0
         let region = MKCoordinateRegionMakeWithDistance(center, width, height)
+        
+        pin = Position(title: "On est là bro !", coordinate: center)
+        myMap.addAnnotation(pin)
+        
         DispatchQueue.main.async {
             self.myMap.setRegion(region , animated: true)
         }
+    }
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let annotationView = MKAnnotationView(annotation: pin, reuseIdentifier: "meme")
+        annotationView.image = UIImage(named: "meme1")
+        let transform = CGAffineTransform(scaleX: 0.5, y:0.5)
+        annotationView.transform = transform
+        return annotationView
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

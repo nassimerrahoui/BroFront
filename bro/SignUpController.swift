@@ -57,28 +57,26 @@ class SignUpController: UIViewController {
     
     @IBAction func registration(_ sender: Any) {
         let apiRequest = ApiRequest.init()
-        if let firstName = FirstNameTextField.text, let lastName = LastNameTextField.text, let username = UsernameTextField.text, let email = EmailTextField.text, let password = PasswordTextField.text {
-            apiRequest.registration(
-                firstName : firstName,
-                lastName : lastName,
-                username : username,
-                email : email,
-                password: password) { (isRegister) -> (Void) in
-                    if isRegister {
-                        apiRequest.connection(
-                            email: email,
-                            password: password) { (token) -> (Void) in
-                                if let token = token {
-                                    let defaults = UserDefaults.standard
-                                    defaults.set(token, forKey: "token")
-                                    print("connected")
-                                    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                                    let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
-                                    self.present(nextViewController, animated:true)
-                                }
-                        }
+        apiRequest.registration(
+            firstName: FirstNameTextField.text!,
+            lastName: LastNameTextField.text!,
+            username: UsernameTextField.text!,
+            email: EmailTextField.text!,
+            password: PasswordTextField.text!) { (isRegister) -> (Void) in
+                if isRegister {
+                    apiRequest.connection(
+                        email: self.EmailTextField.text!,
+                        password: self.PasswordTextField.text!) { (token) -> (Void) in
+                            if let token = token {
+                                let defaults = UserDefaults.standard
+                                defaults.set(token, forKey: "token")
+                                print("connected")
+                                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
+                                self.present(nextViewController, animated:true)
+                            }
                     }
-            }
+                }
         }
     }
 }
