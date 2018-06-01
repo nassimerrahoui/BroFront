@@ -21,7 +21,7 @@ class User {
         self.emailAddress = emailAddress
         self.username = username
         self.isGeolocalised = isGeolocalised
-        self.position = Position()
+        self.position = Position(title: "On est là poto !", coordinate: <#CLLocationCoordinate2D#>)
     }
     
     func set(position : Position){
