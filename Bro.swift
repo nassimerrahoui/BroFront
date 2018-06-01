@@ -14,11 +14,11 @@ class Bro {
     var position : Position
     var isGeolocalised : Bool
     
-//    init(id : NSObject, firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
+    //    init(id : NSObject, firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
     init(){
         id = RAND_MAX.bigEndian.description
         username = "Tom Jedusor"
         isGeolocalised = true
-        position = Position()
+        position = Position(title: "", coordinate: <#CLLocationCoordinate2D#>)
     }
 }
