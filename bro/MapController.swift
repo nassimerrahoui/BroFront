@@ -13,13 +13,26 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var myMap: MKMapView!
     @IBOutlet var searchBarMap: UISearchBar!
+
+    let userDefault = UserDefaults.standard
     var pin:Position!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBarMap.delegate = self
         myMap.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
-
         // Do any additional setup after loading the view, typically from a nib.
+        let apiRequest = ApiRequest.init()
+        let token = userDefault.string(forKey: "token")
+        if let token = token {
+            apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void)
+                in
+                if (Bros != nil) {
+                    print(":: test ::")
+                    print("Bros: \(Bros)")
+                }
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

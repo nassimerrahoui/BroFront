@@ -7,18 +7,22 @@
 //
 
 import Foundation
+import MapKit
 
 class Bro {
-    let id : String
     var username : String
     var position : Position
     var isGeolocalised : Bool
     
-    //    init(id : NSObject, firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
+    init(username : String, isGeolocalised : Bool, position: Position){
+        self.username = "Tom Jedusor"
+        self.isGeolocalised = true
+        self.position = Position(title: username, coordinate: CLLocationCoordinate2D.init())
+    }
+    
     init(){
-        id = RAND_MAX.bigEndian.description
         username = "Tom Jedusor"
         isGeolocalised = true
-        position = Position(title: "", coordinate: <#CLLocationCoordinate2D#>)
+        position = Position(title: username, coordinate: CLLocationCoordinate2D.init())
     }
 }

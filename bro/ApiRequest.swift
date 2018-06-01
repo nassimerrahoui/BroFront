@@ -7,17 +7,19 @@
 //
 
 import Foundation
+import MapKit
 
 class ApiRequest {
     
-    let urlAPI = "https://7a98ebd0.ngrok.io"
+    let urlAPI = "https://c98a5819.ngrok.io"
     
     func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
-        let url = URL(string: "\(urlAPI)/bromance/\(tokenOfUser)")
+        let url = URL(string: "\(urlAPI)/brotherhood/\(tokenOfUser)/bros")
         if let url = url {
             var request = URLRequest(url : url)
-            request.httpMethod = "POST"
+            request.httpMethod = "GET"
             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data, error == nil else {
                     print(error?.localizedDescription ?? "No data")
@@ -27,10 +29,19 @@ class ApiRequest {
                     return
                 }
                 do {
-                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                    if let dictionnary = jsonResponse as? [String: Any] {
-                        if let test = dictionnary[""] as? String {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options : [])
+                    var broList = [Bro].init()
+                    if let bros = jsonResponse as? [[String: Any]] {
+                        for bro in bros {
+                            print(" ---- Bro : \(bro)")
+//                            let position = bro["position"]
+//                            let lat = position["lat"]
+//                            let lng = position["lng"]
+                            if let username = bro["username"], let isLocation = bro["isLocation"] {
+                                broList += [Bro.init(username: username as! String, isGeolocalised:  isLocation as! Bool, position: Position.init(title: username as! String, coordinate: CLLocationCoordinate2D.init()))]
+                            }
                         }
+                        completion(broList)
                     }
                 } catch {
                     print(error)
@@ -38,7 +49,7 @@ class ApiRequest {
                         completion(nil)
                     }
                 }
-            }.resume()
+                }.resume()
         }
     }
     
@@ -110,7 +121,7 @@ class ApiRequest {
                     completion(nil)
                 }
             }
-        }.resume()
+            }.resume()
     }
     
     func logout(token: String, completion: @escaping ((Bool)->(Void))){
