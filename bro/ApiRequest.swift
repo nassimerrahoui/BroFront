@@ -11,15 +11,16 @@ import MapKit
 
 class ApiRequest {
     
-    let urlAPI = "https://c98a5819.ngrok.io"
+    let urlAPI = "https://a968629b.ngrok.io"
     
     func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
-        let url = URL(string: "\(urlAPI)/brotherhood/\(tokenOfUser)/bros")
+        let url = URL(string: "\(urlAPI)/brotherhood/bros")
         if let url = url {
             var request = URLRequest(url : url)
             request.httpMethod = "GET"
-            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue(tokenOfUser, forHTTPHeaderField: "token")
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data, error == nil else {
                     print(error?.localizedDescription ?? "No data")
@@ -33,12 +34,17 @@ class ApiRequest {
                     var broList = [Bro].init()
                     if let bros = jsonResponse as? [[String: Any]] {
                         for bro in bros {
-                            print(" ---- Bro : \(bro)")
-//                            let position = bro["position"]
-//                            let lat = position["lat"]
-//                            let lng = position["lng"]
-                            if let username = bro["username"], let isLocation = bro["isLocation"] {
-                                broList += [Bro.init(username: username as! String, isGeolocalised:  isLocation as! Bool, position: Position.init(title: username as! String, coordinate: CLLocationCoordinate2D.init()))]
+//                            print(" ---- Bro : \(bro)")
+                            let position = bro["position"] as! [String : Any]
+//                            let position = try JSONSerialization.jsonObject(with: bro["position"], options : [])
+//                            CLLocationCoordinate2D.init(latitude: Double(lat)!, longitude: Double(lng)!)
+//                            print("  ----  position : \(position)")
+                            if let lat = position["lat"] as! Double?, let lng = position["lng"] as! Double? {
+//                                print("lng : \(lng)")
+//                                print("lat : \(lat)")
+                                if let username = bro["username"], let isLocation = bro["isLocation"] {
+                                    broList += [Bro.init(username: username as! String, isGeolocalised:  isLocation as! Bool, position: Position.init(title: username as! String, coordinate: CLLocationCoordinate2D.init(latitude: lat, longitude: lng)))]
+                                }
                             }
                         }
                         completion(broList)
@@ -124,10 +130,52 @@ class ApiRequest {
             }.resume()
     }
     
+    func getUser(token : String, completion: @escaping ((User?)->(Void))){
+        let url = URL(string: "\(urlAPI)/user/isconnected/")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.addValue(token, forHTTPHeaderField: "token")
+        
+        var userResponse : User? = nil
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            do {
+                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                if let dictionnary = jsonResponse as? [String: Any] {
+                    if let user = dictionnary["value"] as? [String : Any] {
+                        if let firstName = user["firstName"] as! String?, let lastName = user["lastName"] as! String?, let username = user["username"] as! String?, let email = user["email"] as! String?, let isGeolocalised = user["isLocation"] as! Bool? {
+                        userResponse = User.init(firstName: firstName, lastName: lastName, username: username, emailAddress: email, isGeolocalised: isGeolocalised)
+                            DispatchQueue.main.async {
+                                completion(userResponse)
+                            }
+                        }
+                    }
+                }
+            } catch {
+                print(error)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+        task.resume()
+        
+    }
+    
     func logout(token: String, completion: @escaping ((Bool)->(Void))){
-        let url = URL(string: "\(urlAPI)/user/\(token)/logout")!
+        let url = URL(string: "\(urlAPI)/user/logout")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.addValue(token, forHTTPHeaderField: "token")
         
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

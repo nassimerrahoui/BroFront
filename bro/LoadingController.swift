@@ -21,14 +21,27 @@ class LoadingController: UIViewController {
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let token = userDefault.string(forKey: "token")
-        
-        if ( token != nil) {
-            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
-            self.present(nextViewController, animated:false)
+        var user : User? = nil
+        let apiRequest = ApiRequest.init()
+        if let token = token{
+            apiRequest.getUser(token: token){(userResponse) -> (Void)
+                in
+                if let userResponse = userResponse {
+                    user = userResponse
+                }
+                if ( user != nil) {
+                    let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
+                    self.present(nextViewController, animated:false)
+                } else {
+                    let nextViewController = storyBoard.instantiateViewController(withIdentifier: "NavigationConnection") as! UINavigationController
+                    self.present(nextViewController, animated:false)
+                }
+            }
         } else {
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "NavigationConnection") as! UINavigationController
             self.present(nextViewController, animated:false)
         }
+        
     }
 
 }

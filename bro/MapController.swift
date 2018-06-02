@@ -22,14 +22,23 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         searchBarMap.delegate = self
         myMap.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         let apiRequest = ApiRequest.init()
         let token = userDefault.string(forKey: "token")
         if let token = token {
             apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void)
                 in
                 if (Bros != nil) {
-                    print(":: test ::")
-                    print("Bros: \(Bros)")
+                    for bro in Bros! {
+                        print(bro)
+                    }
+                        
+                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: Bros)
+                    self.userDefault.set(encodedData, forKey : "BrosList")
+//                    print(":: test ::")
+//                    print("Bros: \(Bros)")
                 }
             }
         }

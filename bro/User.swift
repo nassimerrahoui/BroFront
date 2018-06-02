@@ -7,15 +7,20 @@
 //
 
 import Foundation
+import MapKit
 
 class User : Bro {
     var firstName, lastName, emailAddress : String
     
-    init(id : String, firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
+    init(firstName : String, lastName : String, username : String, emailAddress : String, isGeolocalised : Bool){
         self.firstName = firstName
         self.lastName = lastName
         self.emailAddress = emailAddress
-        super.init()
+        super.init(username: firstName, isGeolocalised: isGeolocalised, position: Position.init(title: username, coordinate: CLLocationCoordinate2D.init()))
+    }
+    
+    required convenience init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func set(position : Position){
