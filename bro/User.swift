@@ -20,7 +20,21 @@ class User : Bro {
     }
     
     required convenience init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        let firstName = aDecoder.decodeObject(forKey: "firstName") as! String
+        let lastName = aDecoder.decodeObject(forKey: "lastName") as! String
+        let username = aDecoder.decodeObject(forKey: "username") as! String
+        let emailAddress = aDecoder.decodeObject(forKey: "emailAddress") as! String
+        let position = aDecoder.decodeObject(forKey: "position") as! Position
+        let isGeolocalised = aDecoder.decodeBool(forKey: "isGeolocalised")
+        self.init(firstName: firstName, lastName: lastName, username: username, emailAddress: emailAddress, isGeolocalised: isGeolocalised)
+        self.set(position: position)
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(firstName, forKey: "firstName")
+        aCoder.encode(lastName, forKey: "lastName")
+        aCoder.encode(emailAddress, forKey: "emailAddress")
     }
     
     func set(position : Position){

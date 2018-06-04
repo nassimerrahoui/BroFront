@@ -17,7 +17,7 @@ class Bro : NSObject, NSCoding {
     init(username : String, isGeolocalised : Bool, position: Position){
         self.username = username
         self.isGeolocalised = isGeolocalised
-        self.position = Position(title: username, coordinate: CLLocationCoordinate2D.init())
+        self.position = position
     }
     
     required convenience init(coder aDecoder: NSCoder) {

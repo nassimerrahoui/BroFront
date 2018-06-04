@@ -13,11 +13,13 @@ class Position: NSObject, NSCoding, MKAnnotation {
     
     var title: String?
     var coordinate: CLLocationCoordinate2D
-    var pin: Position!
+//    var pin: Position!
     
     init(title: String, coordinate: CLLocationCoordinate2D) {
         self.title = title
         self.coordinate = coordinate
+        super.init()
+//        self.pin = self
     }
     
     required convenience init(coder aDecoder: NSCoder) {
@@ -34,5 +36,5 @@ class Position: NSObject, NSCoding, MKAnnotation {
         aCoder.encode(coordinate.longitude, forKey: "longitude")
     }
     
-    override var description: String { return "[title : \(title)\ncoordinate : \(coordinate)\npin : \(pin)]" }
+    override var description: String { return "[title : \(title)\ncoordinate : \(coordinate)]" }
 }

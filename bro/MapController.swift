@@ -30,20 +30,21 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         if let token = token {
             apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void)
                 in
-                if (Bros != nil) {
-                    for bro in Bros! {
-                        print(bro)
-                    }
-                        
-                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: Bros)
+                if let bros = Bros  {
+                    
+                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: bros)
                     self.userDefault.set(encodedData, forKey : "BrosList")
-//                    print(":: test ::")
-//                    print("Bros: \(Bros)")
+                    for bro in bros {
+                        if bro.isGeolocalised {
+                            self.myMap.addAnnotation(bro.position)
+                            self.myMap.selectAnnotation(bro.position, animated: true)
+                        }
+                    }
                 }
             }
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -62,6 +63,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
             self.myMap.setRegion(region , animated: true)
         }
     }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView(annotation: pin, reuseIdentifier: "meme")
         annotationView.image = UIImage(named: "meme1")

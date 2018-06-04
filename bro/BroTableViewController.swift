@@ -15,29 +15,27 @@ class BroTableViewController: UITableViewController {
     var broList = [Bro]()
     let userDefault = UserDefaults.standard
     
-    private func loadSampleBro() {
-//        let bro1 = Bro()
-//        let bro2 = Bro()
-//        let bro3 = Bro()
-        
-//        broList += [bro1, bro2, bro3]
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsets(top: 20,left: 0,bottom: 0,right: 0)
                 
 //        let apiRequest = ApiRequest.init()
         
-        let decoded = userDefault.array(forKey: "BrosList") as! Data
-        broList = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! [Bro]
         
+        let decoded = userDefault.data(forKey: "BrosList")
+        if let decoded = decoded{
+            broList = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! [Bro]
+        }
+//        let apiRequest = ApiRequest.init()
 //        let token = userDefault.string(forKey: "token")
 //        if let token = token {
-//            apiRequest.getBrosOf(tokenOfUser: token) {(bros) -> (Void)
+//            apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void)
 //                in
-//                if let bro = bros {
-////                    self.broList = bro
+//                if let bros = Bros  {
+//                    
+//                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: bros)
+//                    self.userDefault.set(encodedData, forKey : "BrosList")
+//                    self.broList = bros
 //                }
 //            }
 //        }

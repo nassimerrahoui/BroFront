@@ -23,7 +23,7 @@ class LoadingController: UIViewController {
         let token = userDefault.string(forKey: "token")
         var user : User? = nil
         let apiRequest = ApiRequest.init()
-        if let token = token{
+        if let token = token {
             apiRequest.getUser(token: token){(userResponse) -> (Void)
                 in
                 if let userResponse = userResponse {
@@ -43,5 +43,6 @@ class LoadingController: UIViewController {
         }
         
     }
+    
 
 }

@@ -11,10 +11,11 @@ import MapKit
 
 class ApiRequest {
     
-    let urlAPI = "https://a968629b.ngrok.io"
+//    let urlAPI = "https://f4539846.ngrok.io"  // Florent
+    let urlAPI = "https://22eff9a8.ngrok.io"    // Nassim
     
     func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
-        let url = URL(string: "\(urlAPI)/brotherhood/bros")
+        let url = URL(string: "\(urlAPI)/geolocation/get_bro_locations")
         if let url = url {
             var request = URLRequest(url : url)
             request.httpMethod = "GET"
@@ -33,21 +34,24 @@ class ApiRequest {
                     let jsonResponse = try JSONSerialization.jsonObject(with: data, options : [])
                     var broList = [Bro].init()
                     if let bros = jsonResponse as? [[String: Any]] {
-                        for bro in bros {
-//                            print(" ---- Bro : \(bro)")
-                            let position = bro["position"] as! [String : Any]
-//                            let position = try JSONSerialization.jsonObject(with: bro["position"], options : [])
-//                            CLLocationCoordinate2D.init(latitude: Double(lat)!, longitude: Double(lng)!)
-//                            print("  ----  position : \(position)")
+//                        print(bros)
+                        for map in bros {
+//                            print(" ---- Bro : \(map)")
+                            let bro = map["map"] as! [String : Any]
+                            let map = bro["position"] as! [String : Any]
+                            let position = map["map"] as! [String : Any]
+//                            print(position)
                             if let lat = position["lat"] as! Double?, let lng = position["lng"] as! Double? {
 //                                print("lng : \(lng)")
 //                                print("lat : \(lat)")
-                                if let username = bro["username"], let isLocation = bro["isLocation"] {
+                                if let username = bro["username"], let isLocation = bro["localizable"] {
                                     broList += [Bro.init(username: username as! String, isGeolocalised:  isLocation as! Bool, position: Position.init(title: username as! String, coordinate: CLLocationCoordinate2D.init(latitude: lat, longitude: lng)))]
                                 }
                             }
                         }
-                        completion(broList)
+                        DispatchQueue.main.async {
+                            completion(broList)
+                        }
                     }
                 } catch {
                     print(error)
@@ -152,7 +156,7 @@ class ApiRequest {
                 let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
                 if let dictionnary = jsonResponse as? [String: Any] {
                     if let user = dictionnary["value"] as? [String : Any] {
-                        if let firstName = user["firstName"] as! String?, let lastName = user["lastName"] as! String?, let username = user["username"] as! String?, let email = user["email"] as! String?, let isGeolocalised = user["isLocation"] as! Bool? {
+                        if let firstName = user["firstName"] as! String?, let lastName = user["lastName"] as! String?, let username = user["username"] as! String?, let email = user["email"] as! String?, let isGeolocalised = user["localizable"] as! Bool? {
                         userResponse = User.init(firstName: firstName, lastName: lastName, username: username, emailAddress: email, isGeolocalised: isGeolocalised)
                             DispatchQueue.main.async {
                                 completion(userResponse)
