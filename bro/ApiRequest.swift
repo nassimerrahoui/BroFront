@@ -223,7 +223,7 @@ class ApiRequest {
         task.resume()
     }
     
-<<<<<<< HEAD
+    
     func deny(sender: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
         let json: [String: Any] = [
             "username": sender,
@@ -249,8 +249,8 @@ class ApiRequest {
             }
         }
         task.resume()
-
-=======
+        
+    }
     
     func getLastPostion(username : String, completion: @escaping ((Position?)->(Void))) {
         let url = URL(string: "\(urlAPI)/geolocation/history")
@@ -318,7 +318,6 @@ class ApiRequest {
             }
             task.resume()
         }
->>>>>>> f89972f20f9a4cb338d078c8073fae52f0847369
     }
 }
 
