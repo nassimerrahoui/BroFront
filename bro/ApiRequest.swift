@@ -19,7 +19,6 @@ class ApiRequest {
         if let url = url {
             var request = URLRequest(url : url)
             request.httpMethod = "GET"
-//            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(tokenOfUser, forHTTPHeaderField: "token")
             URLSession.shared.dataTask(with: request) { data, response, error in
@@ -34,16 +33,11 @@ class ApiRequest {
                     let jsonResponse = try JSONSerialization.jsonObject(with: data, options : [])
                     var broList = [Bro].init()
                     if let bros = jsonResponse as? [[String: Any]] {
-//                        print(bros)
                         for map in bros {
-//                            print(" ---- Bro : \(map)")
                             let bro = map["map"] as! [String : Any]
                             let map = bro["position"] as! [String : Any]
                             let position = map["map"] as! [String : Any]
-//                            print(position)
                             if let lat = position["lat"] as! Double?, let lng = position["lng"] as! Double? {
-//                                print("lng : \(lng)")
-//                                print("lat : \(lat)")
                                 if let username = bro["username"], let isLocation = bro["localizable"] {
                                     broList += [Bro.init(username: username as! String, isGeolocalised:  isLocation as! Bool, position: Position.init(title: username as! String, coordinate: CLLocationCoordinate2D.init(latitude: lat, longitude: lng)))]
                                 }
@@ -229,6 +223,7 @@ class ApiRequest {
         task.resume()
     }
     
+<<<<<<< HEAD
     func deny(sender: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
         let json: [String: Any] = [
             "username": sender,
@@ -255,5 +250,75 @@ class ApiRequest {
         }
         task.resume()
 
+=======
+    
+    func getLastPostion(username : String, completion: @escaping ((Position?)->(Void))) {
+        let url = URL(string: "\(urlAPI)/geolocation/history")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.addValue(username, forHTTPHeaderField: "username")
+            request.addValue("1", forHTTPHeaderField: "nbGeo")
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options : [])
+                    var position : Position?
+                    if let response = jsonResponse as? [[String: Any]] {
+                        let response = response[0] as [String: Any]
+                        if let lat = response["lat"] as? Double, let lng = response["lng"] as? Double {
+                            position = Position(title: username, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+                        }
+                        DispatchQueue.main.async {
+                            completion(position)
+                        }
+                    }
+                } catch {
+                    print(error)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                }
+                }.resume()
+        }
+    }
+    
+    func sendPosition(token: String, lat: Double, lng: Double, completion: @escaping ((Bool) -> (Void))) {
+        let json: [String: Any] = [
+            "lat": lat,
+            "lng" : lng,
+            ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        let url = URL(string: "\(urlAPI)/geolocation/create")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            }
+            task.resume()
+        }
+>>>>>>> f89972f20f9a4cb338d078c8073fae52f0847369
     }
 }
+
