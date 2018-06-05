@@ -14,37 +14,15 @@ class BroTableViewController: UITableViewController {
     
     var broList = [Bro]()
     let userDefault = UserDefaults.standard
+    let apiRequest = ApiRequest.init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsets(top: 20,left: 0,bottom: 0,right: 0)
-                
-//        let apiRequest = ApiRequest.init()
-        
-        
         let decoded = userDefault.data(forKey: "BrosList")
         if let decoded = decoded{
             broList = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! [Bro]
         }
-//        let apiRequest = ApiRequest.init()
-//        let token = userDefault.string(forKey: "token")
-//        if let token = token {
-//            apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void)
-//                in
-//                if let bros = Bros  {
-//                    
-//                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: bros)
-//                    self.userDefault.set(encodedData, forKey : "BrosList")
-//                    self.broList = bros
-//                }
-//            }
-//        }
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,17 +64,18 @@ class BroTableViewController: UITableViewController {
      }
      */
     
-    /*
+    
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
      }
-     }
-     */
+    
     
     /*
      // Override to support rearranging the table view.

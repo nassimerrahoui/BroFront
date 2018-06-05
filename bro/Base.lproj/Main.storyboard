@@ -237,6 +237,7 @@
                                                 <constraint firstItem="CXY-Xx-G4N" firstAttribute="leading" secondItem="dlN-d6-TsM" secondAttribute="leadingMargin" constant="30" id="5wx-SA-GOT"/>
                                                 <constraint firstItem="CXY-Xx-G4N" firstAttribute="centerY" secondItem="dlN-d6-TsM" secondAttribute="centerY" id="GUN-Ii-zOE"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="ao6-s9-wju" secondAttribute="trailing" constant="18" id="Qo8-Hw-Fdi"/>
+                                                <constraint firstItem="CXY-Xx-G4N" firstAttribute="top" secondItem="dlN-d6-TsM" secondAttribute="topMargin" constant="12" id="zws-wU-sLz"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
