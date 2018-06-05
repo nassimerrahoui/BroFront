@@ -228,4 +228,32 @@ class ApiRequest {
         }
         task.resume()
     }
+    
+    func deny(sender: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
+        let json: [String: Any] = [
+            "username": sender,
+            "username": receiver
+        ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let url = URL(string: "\(urlAPI)/brotherhood/deny")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let _ = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                DispatchQueue.main.async {
+                    completion(false)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(true)
+            }
+        }
+        task.resume()
+
+    }
 }
