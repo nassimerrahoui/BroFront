@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class LoadingController: UIViewController {
-
+    
     let userDefault = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -21,15 +21,14 @@ class LoadingController: UIViewController {
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let token = userDefault.string(forKey: "token")
-        var user : User? = nil
         let apiRequest = ApiRequest.init()
         if let token = token {
             apiRequest.getUser(token: token){(userResponse) -> (Void)
                 in
                 if let userResponse = userResponse {
-                    user = userResponse
-                }
-                if ( user != nil) {
+                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: userResponse)
+                    self.userDefault.set(encodedData, forKey : "user")
+                    
                     let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
                     self.present(nextViewController, animated:false)
                 } else {
@@ -44,5 +43,7 @@ class LoadingController: UIViewController {
         
     }
     
-
+    
 }
+
+

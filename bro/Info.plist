@@ -43,5 +43,7 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Required for displaying your location on the map</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Required for displaying your location on the map</string>
 </dict>
 </plist>

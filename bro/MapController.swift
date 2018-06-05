@@ -8,41 +8,93 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
-
+class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate {
+    
     @IBOutlet weak var myMap: MKMapView!
     @IBOutlet var searchBarMap: UISearchBar!
-
+    
     let userDefault = UserDefaults.standard
     var pin:Position!
+    var position : Position?
+    let locationManager = CLLocationManager()
+    var myTimer: Timer!
+    var user : User?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         searchBarMap.delegate = self
-        myMap.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
-        // Do any additional setup after loading the view, typically from a nib.
+                myMap.setUserTrackingMode(MKUserTrackingMode.none, animated: true)
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.requestAlwaysAuthorization()
+        
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+
+        super.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         let apiRequest = ApiRequest.init()
         let token = userDefault.string(forKey: "token")
+        var annotationsList = [Position]()
+        
+        let decoded = userDefault.data(forKey: "user")
+        if let decoded = decoded{
+            user = NSKeyedUnarchiver.unarchiveObject(with: decoded) as? User
+        }
+
         if let token = token {
-            apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void)
-                in
-                if let bros = Bros  {
-                    
-                    let encodedData = NSKeyedArchiver.archivedData(withRootObject: bros)
-                    self.userDefault.set(encodedData, forKey : "BrosList")
-                    for bro in bros {
-                        if bro.isGeolocalised {
-                            self.myMap.addAnnotation(bro.position)
-                            self.myMap.selectAnnotation(bro.position, animated: true)
+            myTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { (Timer) in
+                self.myMap.removeAnnotations(annotationsList)
+                if let user = self.user {
+                    self.position = Position(title: user.username, coordinate: self.myMap.userLocation.coordinate)
+                    if let position = self.position{
+                        if user.isGeolocalised {
+                            apiRequest.sendPosition(token: token, lat: position.coordinate.latitude, lng: position.coordinate.longitude) { (res) -> (Void) in
+                                if res == true {
+                                }
+                            }
                         }
+                    }
+                }
+                apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void) in
+                    if let bros = Bros  {
+                        let encodedData = NSKeyedArchiver.archivedData(withRootObject: bros)
+                        self.userDefault.set(encodedData, forKey : "BrosList")
+                        for bro in bros {
+                            if bro.isGeolocalised {
+                                self.myMap.addAnnotation(bro.position)
+                                self.myMap.selectAnnotation(bro.position, animated: true)
+                                annotationsList.append(bro.position)
+                            }
+                        }
+                    }
+                }
+            })
+            
+            if let user = user {
+                
+                apiRequest.getLastPostion(username: user.username) { (position) -> (Void) in
+                    if let position = position {
+                        
+                        let center = CLLocationCoordinate2D(latitude: position.coordinate.latitude , longitude: position.coordinate.longitude)
+                        let width = 2000.0 // meters
+                        let height = 2000.0
+                        let region = MKCoordinateRegionMakeWithDistance(center, width, height)
+                        self.myMap.setRegion(region, animated: true)
                     }
                 }
             }
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        myTimer.invalidate()
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,19 +102,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude , longitude: userLocation.coordinate.longitude)
-        let width = 2000.0 // meters
-        let height = 2000.0
-        let region = MKCoordinateRegionMakeWithDistance(center, width, height)
-        
-        pin = Position(title: "On est là bro !", coordinate: center)
-        myMap.addAnnotation(pin)
-        
-        DispatchQueue.main.async {
-            self.myMap.setRegion(region , animated: true)
-        }
-    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView(annotation: pin, reuseIdentifier: "meme")
@@ -77,21 +116,26 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(searchBarMap.text!) { (placemarks:[CLPlacemark]?, error:Error?) in
             if error == nil {
-                
-                let placemark = placemarks?.first
-                let anno = MKPointAnnotation()
-                
-                anno.coordinate = (placemark?.location?.coordinate)!
-                anno.title = self.searchBarMap.text!
-                
-                self.myMap.addAnnotation(anno)
-                self.myMap.selectAnnotation(anno, animated: true)
-                
+                if let placemarks = placemarks {
+                    let placemark = placemarks.first
+                    let anno = MKPointAnnotation()
+                    if let placemark = placemark {
+                        if let location = placemark.location{
+                            anno.coordinate = location.coordinate
+                            anno.title = self.searchBarMap.text!
+                            
+                            self.myMap.addAnnotation(anno)
+                            self.myMap.selectAnnotation(anno, animated: true)
+                        }
+                    }
+                }
             } else {
-                print(error?.localizedDescription ?? "error")
+                if let error = error {
+                    print(error.localizedDescription)
+                }
             }
         }
-            
     }
 }
+
 

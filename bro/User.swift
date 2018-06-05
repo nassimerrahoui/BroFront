@@ -40,4 +40,7 @@ class User : Bro {
     func set(position : Position){
         self.position = position
     }
+    override var description: String { return "[FirstName : \(firstName)\nlastName : \(lastName)\nEmailAddress : \(emailAddress)\n\(super.description)]" }
 }
+
+

@@ -71,7 +71,15 @@ class SignUpController: UIViewController {
                                 if let token = token {
                                     let defaults = UserDefaults.standard
                                     defaults.set(token, forKey: "token")
-                                    print("connected")
+
+                                    apiRequest.getUser(token: token){(userResponse) -> (Void)
+                                        in
+                                        if let userResponse = userResponse {
+                                            let encodedData = NSKeyedArchiver.archivedData(withRootObject: userResponse)
+                                            defaults.set(encodedData, forKey : "user")
+                                        }
+                                    }
+                                    
                                     let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                                     let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
                                     self.present(nextViewController, animated:true)

@@ -22,7 +22,7 @@ class SignInController: UIViewController {
         PasswordTextField.layer.borderWidth = 1
         PasswordTextField.layer.borderColor = UIColor.lightGray.cgColor
         PasswordTextField.layer.cornerRadius = 10
-
+        
         UsernameTextField.text = ""
         PasswordTextField.text = ""
         
@@ -31,14 +31,21 @@ class SignInController: UIViewController {
     }
     
     @IBAction func connection(_ sender: Any) {
-        
         let apiRequest = ApiRequest.init()
         if let email = UsernameTextField.text, let password = PasswordTextField.text {
             apiRequest.connection(email: email, password: password) { (token) -> (Void) in
                 if let token = token {
                     let defaults = UserDefaults.standard
                     defaults.set(token, forKey: "token")
-                    print("connected")
+
+                    apiRequest.getUser(token: token){(userResponse) -> (Void)
+                        in
+                        if let userResponse = userResponse {
+                            let encodedData = NSKeyedArchiver.archivedData(withRootObject: userResponse)
+                            defaults.set(encodedData, forKey : "user")
+                        }
+                    }
+                    
                     let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                     let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
                     self.present(nextViewController, animated:true)
@@ -47,3 +54,5 @@ class SignInController: UIViewController {
         }
     }
 }
+
+
