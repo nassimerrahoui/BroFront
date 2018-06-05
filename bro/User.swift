@@ -16,7 +16,7 @@ class User : Bro {
         self.firstName = firstName
         self.lastName = lastName
         self.emailAddress = emailAddress
-        super.init(username: firstName, isGeolocalised: isGeolocalised, position: Position.init(title: username, coordinate: CLLocationCoordinate2D.init()))
+        super.init(username: username, isGeolocalised: isGeolocalised, position: Position.init(title: username, coordinate: CLLocationCoordinate2D.init()))
     }
     
     required convenience init(coder aDecoder: NSCoder) {

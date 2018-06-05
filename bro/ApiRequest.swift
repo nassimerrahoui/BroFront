@@ -11,8 +11,8 @@ import MapKit
 
 class ApiRequest {
     
-//    let urlAPI = "https://f4539846.ngrok.io"  // Florent
-    let urlAPI = "https://22eff9a8.ngrok.io"    // Nassim
+  //  let urlAPI = "https://f4539846.ngrok.io"  // Florent
+   let urlAPI = "https://79967509.ngrok.io"    // Nassim
     
     func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
         let url = URL(string: "\(urlAPI)/geolocation/get_bro_locations")
@@ -80,7 +80,7 @@ class ApiRequest {
         request.httpBody = jsonData
         print("test: before sending")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
                 DispatchQueue.main.async {
                     completion(false)
@@ -157,7 +157,7 @@ class ApiRequest {
                 if let dictionnary = jsonResponse as? [String: Any] {
                     if let user = dictionnary["value"] as? [String : Any] {
                         if let firstName = user["firstName"] as! String?, let lastName = user["lastName"] as! String?, let username = user["username"] as! String?, let email = user["email"] as! String?, let isGeolocalised = user["localizable"] as! Bool? {
-                        userResponse = User.init(firstName: firstName, lastName: lastName, username: username, emailAddress: email, isGeolocalised: isGeolocalised)
+                            userResponse = User.init(firstName: firstName, lastName: lastName, username: username, emailAddress: email, isGeolocalised: isGeolocalised)
                             DispatchQueue.main.async {
                                 completion(userResponse)
                             }
@@ -183,7 +183,7 @@ class ApiRequest {
         
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
                 DispatchQueue.main.async {
                     completion(false)
@@ -197,4 +197,35 @@ class ApiRequest {
         task.resume()
     }
     
+    func updateSettings(token: String, localizable: Bool, firstName: String, lastName: String, username: String, email: String, password: String, completion: @escaping ((Bool)->(Void))) {
+        let json: [String: Any] = [
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "password": password,
+            "username": username,
+            "localizable": localizable
+        ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let url = URL(string: "\(urlAPI)/user/settings")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.addValue(token, forHTTPHeaderField: "token")
+        request.httpBody = jsonData
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let _ = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                DispatchQueue.main.async {
+                    completion(false)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(true)
+            }
+        }
+        task.resume()
+    }
 }
