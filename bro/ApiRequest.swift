@@ -11,8 +11,8 @@ import MapKit
 
 class ApiRequest {
     
-  //  let urlAPI = "https://f4539846.ngrok.io"  // Florent
-   let urlAPI = "https://79967509.ngrok.io"    // Nassim
+    let urlAPI = "https://1baec6e5.ngrok.io"  // Florent
+//   let urlAPI = "https://79967509.ngrok.io"    // Nassim
     
     func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
         let url = URL(string: "\(urlAPI)/geolocation/get_bro_locations")
