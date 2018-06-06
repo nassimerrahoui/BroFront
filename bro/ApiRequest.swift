@@ -408,5 +408,73 @@ class ApiRequest {
             }.resume()
         }
     }
+    
+    func getBros(token: String, completion: @escaping (([String]?)->(Void))){
+        let url = URL(string: "\(urlAPI)/brotherhood/accepted_bros")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options : [])
+                    var bros = [String]()
+                    if let response = jsonResponse as? [String] {
+                        bros = response
+                        DispatchQueue.main.async {
+                            completion(bros)
+                        }
+                    }
+                } catch {
+                    print(error)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                }
+                }.resume()
+        }
+    }
+
+    func getWaiting(token: String, completion: @escaping (([String]?)->(Void))){
+        let url = URL(string: "\(urlAPI)/brotherhood/awaiting_bros")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options : [])
+                    var bros = [String]()
+                    if let response = jsonResponse as? [String] {
+                        bros = response
+                        DispatchQueue.main.async {
+                            completion(bros)
+                        }
+                    }
+                } catch {
+                    print(error)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                }
+                }.resume()
+        }
+    }
 }
 
