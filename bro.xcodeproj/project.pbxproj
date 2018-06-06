@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36A9BC0E20C890A200A35DD3 /* WaitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9BC0D20C890A200A35DD3 /* WaitTableViewCell.swift */; };
 		D60FDC7C20B8370B00D7E8D4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FDC7B20B8370B00D7E8D4 /* User.swift */; };
 		D623CE9020BFDDA000F617F7 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = D623CE8F20BFDDA000F617F7 /* Position.swift */; };
 		D625989820B6BD24008139F7 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D625989720B6BD24008139F7 /* ApiRequest.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		36A9BC0D20C890A200A35DD3 /* WaitTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitTableViewCell.swift; sourceTree = "<group>"; };
 		D60FDC7B20B8370B00D7E8D4 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D623CE8F20BFDDA000F617F7 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		D625989720B6BD24008139F7 /* ApiRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				D6B0C9AD20C567B100009569 /* SettingsTableViewController.swift */,
 				D6C9139D20AC266200BDD1C2 /* SignInController.swift */,
 				D6936D8920C2C48F00C8DBC1 /* BroTableViewCell.swift */,
+				36A9BC0D20C890A200A35DD3 /* WaitTableViewCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36A9BC0E20C890A200A35DD3 /* WaitTableViewCell.swift in Sources */,
 				D6EF818020B59EBE003324D6 /* LoadingController.swift in Sources */,
 				D6C913A020AC268000BDD1C2 /* SignUpController.swift in Sources */,
 				D65E45E620AAE01300FAC59D /* MapController.swift in Sources */,

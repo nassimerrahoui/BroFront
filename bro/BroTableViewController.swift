@@ -19,6 +19,7 @@ class BroTableViewController: UITableViewController {
     var user : User?
     var token : String?
     
+
     override func viewDidLoad() {
         let urlApi = userDefault.string(forKey: "urlApi")
         if let urlApi = urlApi{
@@ -28,7 +29,9 @@ class BroTableViewController: UITableViewController {
         self.tableView.contentInset = UIEdgeInsets(top: 20,left: 0,bottom: 0,right: 0)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BroTableViewController.editButtonPressed))
         token = userDefault.string(forKey: "token")
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         if let token = token, let apiRequest = apiRequest {
             apiRequest.getBros(token: token) { (bros) -> (Void) in
                 if let bros = bros {
@@ -54,7 +57,12 @@ class BroTableViewController: UITableViewController {
                 }
             }
         }
-        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.broList.removeAll()
+        self.waitingList.removeAll()
+        self.tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -88,10 +96,9 @@ class BroTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
-        let cellIdentifier = "BroTableViewCell"
         
         if indexPath.section == 0 {
-            
+            let cellIdentifier = "BroTableViewCell"
             if indexPath.row > (broList.count - 1) {
 
                 let cellEmtpy = tableView.dequeueReusableCell(withIdentifier: "HiddenTableViewCell", for: indexPath)
@@ -109,15 +116,15 @@ class BroTableViewController: UITableViewController {
             return cell
         }
         else if indexPath.section == 1 {
-            
+            let cellIdentifier = "WaitTableViewCell"
             if indexPath.row > (waitingList.count - 1) {
 
                 let cellEmtpy = tableView.dequeueReusableCell(withIdentifier: "HiddenTableViewCell", for: indexPath)
                 return cellEmtpy
             }
             
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BroTableViewCell  else {
-                fatalError("The dequeued cell is not an instance of BroTableViewCell.")
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? WaitTableViewCell  else {
+                fatalError("The dequeued cell is not an instance of WaitTableViewCell.")
             }
             
             let bro = waitingList[indexPath.row]
