@@ -26,11 +26,6 @@ class BroTableViewController: UITableViewController {
             broList = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! [Bro]
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BroTableViewController.editButtonPressed))
-        
-        let decodedUser = userDefault.data(forKey: "user")
-        if let decodedUser = decodedUser {
-            user = NSKeyedUnarchiver.unarchiveObject(with: decodedUser) as? User
-        }
         token = userDefault.string(forKey: "token")
     }
     
@@ -42,7 +37,15 @@ class BroTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let headerTitles = ["Mes Bros", "En attente"]
+        if section < headerTitles.count {
+            return headerTitles[section]
+        }
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,7 +66,6 @@ class BroTableViewController: UITableViewController {
         
         return cell
     }
-    
     
     
     // Override to support conditional editing of the table view.
