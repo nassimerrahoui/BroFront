@@ -67,25 +67,27 @@ class ApiRequest {
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        let url = URL(string: "\(urlAPI)/user/create")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-        print("test: before sending")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let _ = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                DispatchQueue.main.async {
-                    completion(false)
+        let url = URL(string: "\(urlAPI)/user/create")
+        if let url = url {
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            print("test: before sending")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                completion(true)
-            }
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            }.resume()
         }
-        task.resume()
     }
     
     func connection(email: String, password: String, completion: @escaping ((String?)->(Void))) {
@@ -94,101 +96,105 @@ class ApiRequest {
             "password": password,
             ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        let url = URL(string: "\(urlAPI)/user/auth")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-        
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                return
-            }
-            do {
-                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                if let dictionnary = jsonResponse as? [String: Any] {
-                    if let token = dictionnary["token"] as? String {
-                        DispatchQueue.main.async {
-                            completion(token)
-                        }
+        let url = URL(string: "\(urlAPI)/user/auth")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(nil)
                     }
+                    return
                 }
-            } catch {
-                print(error)
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
-            }.resume()
-    }
-    
-    func getUser(token : String, completion: @escaping ((User?)->(Void))){
-        let url = URL(string: "\(urlAPI)/user/isconnected/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.addValue(token, forHTTPHeaderField: "token")
-        
-        var userResponse : User? = nil
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                return
-            }
-            do {
-                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-                if let dictionnary = jsonResponse as? [String: Any] {
-                    if let user = dictionnary["value"] as? [String : Any] {
-                        if let firstName = user["firstName"] as! String?, let lastName = user["lastName"] as! String?, let username = user["username"] as! String?, let email = user["email"] as! String?, let isGeolocalised = user["localizable"] as! Bool? {
-                            userResponse = User.init(firstName: firstName, lastName: lastName, username: username, emailAddress: email, isGeolocalised: isGeolocalised)
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let dictionnary = jsonResponse as? [String: Any] {
+                        if let token = dictionnary["token"] as? String {
                             DispatchQueue.main.async {
-                                completion(userResponse)
+                                completion(token)
                             }
                         }
                     }
+                } catch {
+                    print(error)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
                 }
-            } catch {
-                print(error)
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
+                }.resume()
         }
-        task.resume()
+    }
+    
+    func getUser(token : String, completion: @escaping ((User?)->(Void))){
+        let url = URL(string: "\(urlAPI)/user/isconnected/")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.addValue(token, forHTTPHeaderField: "token")
+            
+            var userResponse : User? = nil
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                do {
+                    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let dictionnary = jsonResponse as? [String: Any] {
+                        if let user = dictionnary["value"] as? [String : Any] {
+                            if let firstName = user["firstName"] as! String?, let lastName = user["lastName"] as! String?, let username = user["username"] as! String?, let email = user["email"] as! String?, let isGeolocalised = user["localizable"] as! Bool? {
+                                userResponse = User.init(firstName: firstName, lastName: lastName, username: username, emailAddress: email, isGeolocalised: isGeolocalised)
+                                DispatchQueue.main.async {
+                                    completion(userResponse)
+                                }
+                            }
+                        }
+                    }
+                } catch {
+                    print(error)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                }
+            }.resume()
+        }
         
     }
     
     func logout(token: String, completion: @escaping ((Bool)->(Void))){
-        let url = URL(string: "\(urlAPI)/user/logout")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue(token, forHTTPHeaderField: "token")
-        
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let _ = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                DispatchQueue.main.async {
-                    completion(false)
+        let url = URL(string: "\(urlAPI)/user/logout")
+        if let url = url{
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue(token, forHTTPHeaderField: "token")
+            
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                completion(true)
-            }
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            }.resume()
         }
-        task.resume()
     }
     
     func updateSettings(token: String, localizable: Bool, firstName: String, lastName: String, username: String, email: String, password: String, completion: @escaping ((Bool)->(Void))) {
@@ -202,54 +208,114 @@ class ApiRequest {
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        let url = URL(string: "\(urlAPI)/user/settings")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.addValue(token, forHTTPHeaderField: "token")
-        request.httpBody = jsonData
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let _ = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                DispatchQueue.main.async {
-                    completion(false)
+        let url = URL(string: "\(urlAPI)/user/settings")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "PUT"
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.httpBody = jsonData
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                completion(true)
-            }
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            }.resume()
         }
-        task.resume()
     }
     
-    
-    func deny(sender: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
+    func accept(token: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
         let json: [String: Any] = [
-            "username": sender,
             "username": receiver
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
-        let url = URL(string: "\(urlAPI)/brotherhood/deny")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let _ = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                DispatchQueue.main.async {
-                    completion(false)
+        let url = URL(string: "\(urlAPI)/brotherhood/accept")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.httpBody = jsonData
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
                 }
-                return
-            }
-            DispatchQueue.main.async {
-                completion(true)
-            }
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            }.resume()
         }
-        task.resume()
+    }
+    
+    func getPossibleBros(completion: @escaping ((Bool)->(Void))) {
         
+    }
+    
+    func deny(token: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
+        let json: [String: Any] = [
+            "username": receiver
+        ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let url = URL(string: "\(urlAPI)/brotherhood/deny")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.httpBody = jsonData
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            }.resume()
+        }
+    }
+    
+    func sendInvitation(token : String, receiver: String, completion: @escaping ((Bool)->(Void))) {
+        let json: [String: Any] = [
+            "username": receiver
+        ]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let url = URL(string: "\(urlAPI)/brotherhood/create")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.httpBody = jsonData
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil else {
+                    print(error?.localizedDescription ?? "No data")
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    completion(true)
+                }
+            }.resume()
+        }
     }
     
     func getLastPostion(username : String, completion: @escaping ((Position?)->(Void))) {
@@ -304,7 +370,7 @@ class ApiRequest {
             request.addValue(token, forHTTPHeaderField: "token")
             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = jsonData
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            URLSession.shared.dataTask(with: request) { data, response, error in
                 guard error == nil else {
                     print(error?.localizedDescription ?? "No data")
                     DispatchQueue.main.async {
@@ -315,8 +381,25 @@ class ApiRequest {
                 DispatchQueue.main.async {
                     completion(true)
                 }
-            }
-            task.resume()
+            }.resume()
+        }
+    }
+    
+    func getBrosDistance(token: String, completion: @escaping (([String : Double]?)->(Void))) {
+        let url = URL(string: "\(urlAPI)/gelocation/get_bros_distance")
+        if let url = url {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.addValue(token, forHTTPHeaderField: "token")
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }.resume()
         }
     }
 }
