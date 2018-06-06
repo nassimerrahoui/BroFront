@@ -15,11 +15,15 @@ class BroTableViewController: UITableViewController {
     var broList = [String]()
     var waitingList = [String]()
     let userDefault = UserDefaults.standard
-    let apiRequest = ApiRequest.init()
+    var apiRequest : ApiRequest?
     var user : User?
     var token : String?
     
     override func viewDidLoad() {
+        let urlApi = userDefault.string(forKey: "urlApi")
+        if let urlApi = urlApi{
+            apiRequest = ApiRequest.init(urlAPI: urlApi)
+        }
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsets(top: 20,left: 0,bottom: 0,right: 0)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BroTableViewController.editButtonPressed))
@@ -148,11 +152,13 @@ class BroTableViewController: UITableViewController {
             let cell = tableView.cellForRow(at: indexPath)! as? BroTableViewCell
                 
             // Delete the row from the data source
+            if let apiRequest = apiRequest {
             apiRequest.deny(token: token!, receiver: (cell?.usernameLabel.text)!) { (res) -> (Void) in
                 if res {
                     self.broList.remove(at: indexPath.row)
                     self.tableView.deleteRows(at: [indexPath], with: .fade)
                 }
+            }
             }
         }
         else if editingStyle == .insert {

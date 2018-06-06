@@ -13,8 +13,11 @@ class ConnectionController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     
+    @IBAction func updateUrlApi(_ sender: UITextField) {
+        UserDefaults.standard.set(sender.text, forKey: "urlApi")
+    }
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
         signInButton.layer.cornerRadius = 10
         signInButton.layer.borderWidth = 1
         signInButton.layer.borderColor = UIColor.lightGray.cgColor
@@ -22,6 +25,7 @@ class ConnectionController: UIViewController {
         signUpButton.layer.cornerRadius = 10
         signUpButton.layer.borderWidth = 1
         signUpButton.layer.borderColor = UIColor.lightGray.cgColor
+        super.viewDidLoad()
     }
     
 }
