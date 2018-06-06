@@ -11,8 +11,8 @@ import MapKit
 
 class ApiRequest {
     
-  //  let urlAPI = "https://1baec6e5.ngrok.io"  // Florent
-  let urlAPI = "https://9ea03ea0.ngrok.io"    // Nassim
+    let urlAPI = "https://1baec6e5.ngrok.io"  // Florent
+//  let urlAPI = "https://9ea03ea0.ngrok.io"    // Nassim
     
     func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
         let url = URL(string: "\(urlAPI)/geolocation/get_bro_locations")
@@ -197,15 +197,21 @@ class ApiRequest {
         }
     }
     
-    func updateSettings(token: String, localizable: Bool, firstName: String, lastName: String, username: String, email: String, password: String, completion: @escaping ((Bool)->(Void))) {
-        let json: [String: Any] = [
+    func updateSettings(token: String, localizable: Bool, firstName: String, lastName: String, username: String, email: String, password: String?, completion: @escaping ((Bool)->(Void))) {
+        var json: [String: Any] = [
             "firstName": firstName,
             "lastName": lastName,
             "email": email,
-            "password": password,
             "username": username,
             "localizable": localizable
         ]
+        
+        if let password = password {
+            if !password.isEmpty{
+                json.updateValue(password, forKey: "password")
+            }
+        }
+        
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         let url = URL(string: "\(urlAPI)/user/settings")

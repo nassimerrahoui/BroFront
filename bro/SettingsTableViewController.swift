@@ -71,9 +71,7 @@ class SettingsTableViewController: UITableViewController {
             
         }
         else if !(username.text?.isEmpty)! && !(email.text?.isEmpty)! && !(firstName.text?.isEmpty)! && !(lastName.text?.isEmpty)! {
-            
-            
-            apiRequest.updateSettings(token: token!, localizable: geolocation.isOn, firstName: firstName.text!, lastName: lastName.text!, username: username.text!, email: email.text!, password: password.text!) { (res) -> (Void) in
+            apiRequest.updateSettings(token: token!, localizable: geolocation.isOn, firstName: firstName.text!, lastName: lastName.text!, username: username.text!, email: email.text!, password: password.text) { (res) -> (Void) in
                 if res {
                     self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(SettingsTableViewController.editButtonPressed))
                     
