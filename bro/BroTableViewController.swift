@@ -29,7 +29,7 @@ class BroTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BroTableViewController.editButtonPressed))
         token = userDefault.string(forKey: "token")
 
-        if let token = token {
+        if let token = token, let apiRequest = apiRequest {
             apiRequest.getBros(token: token) { (bros) -> (Void) in
                 if let bros = bros {
                     self.broList = bros
@@ -43,19 +43,18 @@ class BroTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-        
         for section in 0..<tableView.numberOfSections {
             
             for row in 0..<tableView.numberOfRows(inSection: section) {
                 
                 let indexPath = IndexPath(row: row, section: section)
                 let cell = tableView.cellForRow(at: indexPath)
-                if cell?.accessoryType == .none {
-                    
+                if cell?.reuseIdentifier == "HiddenTableViewCell" {
                     self.tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             }
         }
+        
     }
     
     override func didReceiveMemoryWarning() {
