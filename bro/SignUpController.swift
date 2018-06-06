@@ -56,7 +56,9 @@ class SignUpController: UIViewController {
     }
     
     @IBAction func registration(_ sender: Any) {
-        let apiRequest = ApiRequest.init()
+        let urlApi = UserDefaults.standard.string(forKey: "urlApi")
+        if let urlApi = urlApi{
+        let apiRequest = ApiRequest.init(urlAPI: urlApi)
         if let firstName = FirstNameTextField.text, let lastName = LastNameTextField.text, let username = UsernameTextField.text, let email = EmailTextField.text, let password = PasswordTextField.text {
             apiRequest.registration(
                 firstName : firstName,
@@ -86,6 +88,7 @@ class SignUpController: UIViewController {
                                 }
                         }
                     }
+            }
             }
         }
     }

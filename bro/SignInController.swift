@@ -9,6 +9,7 @@
 import UIKit
 
 class SignInController: UIViewController {
+    let userDefault = UserDefaults.standard
     
     @IBOutlet weak var UsernameTextField: UITextField!
     @IBOutlet weak var PasswordTextField: UITextField!
@@ -31,24 +32,27 @@ class SignInController: UIViewController {
     }
     
     @IBAction func connection(_ sender: Any) {
-        let apiRequest = ApiRequest.init()
-        if let email = UsernameTextField.text, let password = PasswordTextField.text {
-            apiRequest.connection(email: email, password: password) { (token) -> (Void) in
-                if let token = token {
-                    let defaults = UserDefaults.standard
-                    defaults.set(token, forKey: "token")
-
-                    apiRequest.getUser(token: token){(userResponse) -> (Void)
-                        in
-                        if let userResponse = userResponse {
-                            let encodedData = NSKeyedArchiver.archivedData(withRootObject: userResponse)
-                            defaults.set(encodedData, forKey : "user")
+        let urlApi = userDefault.string(forKey: "urlApi")
+        if let urlApi = urlApi{
+            let apiRequest = ApiRequest.init(urlAPI: urlApi)
+            if let email = UsernameTextField.text, let password = PasswordTextField.text {
+                apiRequest.connection(email: email, password: password) { (token) -> (Void) in
+                    if let token = token {
+                        let defaults = UserDefaults.standard
+                        defaults.set(token, forKey: "token")
+                        
+                        apiRequest.getUser(token: token){(userResponse) -> (Void)
+                            in
+                            if let userResponse = userResponse {
+                                let encodedData = NSKeyedArchiver.archivedData(withRootObject: userResponse)
+                                defaults.set(encodedData, forKey : "user")
+                            }
                         }
+                        
+                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
+                        self.present(nextViewController, animated:true)
                     }
-                    
-                    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                    let nextViewController = storyBoard.instantiateViewController(withIdentifier: "Menu") as! UITabBarController
-                    self.present(nextViewController, animated:true)
                 }
             }
         }

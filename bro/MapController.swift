@@ -22,9 +22,13 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     let locationManager = CLLocationManager()
     var myTimer: Timer!
     var user : User?
-    let apiRequest = ApiRequest.init()
+    var apiRequest : ApiRequest?
   
     override func viewDidLoad() {
+        let urlApi = userDefault.string(forKey: "urlApi")
+        if let urlApi = urlApi{
+            apiRequest = ApiRequest.init(urlAPI: urlApi)
+        }
         searchBarMap.delegate = self
                 myMap.setUserTrackingMode(MKUserTrackingMode.none, animated: true)
         self.locationManager.requestWhenInUseAuthorization()
@@ -49,21 +53,21 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
             user = NSKeyedUnarchiver.unarchiveObject(with: decoded) as? User
         }
 
-        if let token = token {
+        if let token = token, let apiRequest = apiRequest {
             myTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { (Timer) in
                 self.myMap.removeAnnotations(annotationsList)
                 if let user = self.user {
                     self.position = Position(title: user.username, coordinate: self.myMap.userLocation.coordinate)
                     if let position = self.position{
                         if user.isGeolocalised {
-                            self.apiRequest.sendPosition(token: token, lat: position.coordinate.latitude, lng: position.coordinate.longitude) { (res) -> (Void) in
+                            apiRequest.sendPosition(token: token, lat: position.coordinate.latitude, lng: position.coordinate.longitude) { (res) -> (Void) in
                                 if res == true {
                                 }
                             }
                         }
                     }
                 }
-                self.apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void) in
+                apiRequest.getBrosOf(tokenOfUser: token) {(Bros) -> (Void) in
                     if let bros = Bros  {
                         let encodedData = NSKeyedArchiver.archivedData(withRootObject: bros)
                         self.userDefault.set(encodedData, forKey : "BrosList")
@@ -113,7 +117,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
     
     @IBAction func centerOnUser(_ sender: UIButton) {
-        if let user = user {
+        if let user = user, let apiRequest = apiRequest {
             apiRequest.getLastPostion(username: user.username) { (position) -> (Void) in
                 if let position = position {
                     
