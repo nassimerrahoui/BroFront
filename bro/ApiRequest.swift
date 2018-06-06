@@ -11,8 +11,8 @@ import MapKit
 
 class ApiRequest {
     
-    let urlAPI = "https://1baec6e5.ngrok.io"  // Florent
-//   let urlAPI = "https://79967509.ngrok.io"    // Nassim
+  //  let urlAPI = "https://1baec6e5.ngrok.io"  // Florent
+  let urlAPI = "https://9ea03ea0.ngrok.io"    // Nassim
     
     func getBrosOf(tokenOfUser : String, completion : @escaping (([Bro]?) -> (Void))){
         let url = URL(string: "\(urlAPI)/geolocation/get_bro_locations")
@@ -224,9 +224,8 @@ class ApiRequest {
     }
     
     
-    func deny(sender: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
+    func deny(token: String, receiver: String, completion: @escaping ((Bool)->(Void))) {
         let json: [String: Any] = [
-            "username": sender,
             "username": receiver
         ]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
@@ -235,6 +234,7 @@ class ApiRequest {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.addValue(token, forHTTPHeaderField: "token")
         request.httpBody = jsonData
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let _ = data, error == nil else {

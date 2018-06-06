@@ -15,6 +15,8 @@ class BroTableViewController: UITableViewController {
     var broList = [Bro]()
     let userDefault = UserDefaults.standard
     let apiRequest = ApiRequest.init()
+    var user : User?
+    var token : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +26,12 @@ class BroTableViewController: UITableViewController {
             broList = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! [Bro]
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BroTableViewController.editButtonPressed))
+        
+        let decodedUser = userDefault.data(forKey: "user")
+        if let decodedUser = decodedUser {
+            user = NSKeyedUnarchiver.unarchiveObject(with: decodedUser) as? User
+        }
+        token = userDefault.string(forKey: "token")
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,17 +72,29 @@ class BroTableViewController: UITableViewController {
         return true
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let indexPath = tableView.indexPathForSelectedRow
+        _ = tableView.cellForRow(at: indexPath!)!
+    }
     
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
+            let cell = tableView.cellForRow(at: indexPath)! as? BroTableViewCell
+                
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            // apiRequest.deny(sender: <#T##String#>, receiver: <#T##String#>, completion: <#T##((Bool) -> (Void))##((Bool) -> (Void))##(Bool) -> (Void)#>)
+            apiRequest.deny(token: token!, receiver: (cell?.usernameLabel.text)!) { (res) -> (Void) in
+                if res {
+                    self.broList.remove(at: indexPath.row)
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
         }
         else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            //apiRequest.accept(sender: <#T##String#>, receiver: <#T##String#>, completion: <#T##((Bool) -> (Void))##((Bool) -> (Void))##(Bool) -> (Void)#>)
         }
     }
     
