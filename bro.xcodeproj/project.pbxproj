@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		36A9BC0E20C890A200A35DD3 /* WaitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9BC0D20C890A200A35DD3 /* WaitTableViewCell.swift */; };
+		36A9BC1220C8AE4400A35DD3 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A9BC1120C8AE4400A35DD3 /* SearchTableViewController.swift */; };
+		36C87BD920C8C0AD00469251 /* SearchBroTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C87BD820C8C0AD00469251 /* SearchBroTableViewCell.swift */; };
 		D60FDC7C20B8370B00D7E8D4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60FDC7B20B8370B00D7E8D4 /* User.swift */; };
 		D623CE9020BFDDA000F617F7 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = D623CE8F20BFDDA000F617F7 /* Position.swift */; };
 		D625989820B6BD24008139F7 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D625989720B6BD24008139F7 /* ApiRequest.swift */; };
@@ -50,6 +52,8 @@
 
 /* Begin PBXFileReference section */
 		36A9BC0D20C890A200A35DD3 /* WaitTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitTableViewCell.swift; sourceTree = "<group>"; };
+		36A9BC1120C8AE4400A35DD3 /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		36C87BD820C8C0AD00469251 /* SearchBroTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBroTableViewCell.swift; sourceTree = "<group>"; };
 		D60FDC7B20B8370B00D7E8D4 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D623CE8F20BFDDA000F617F7 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		D625989720B6BD24008139F7 /* ApiRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
@@ -117,8 +121,10 @@
 				D65E45E520AAE01300FAC59D /* MapController.swift */,
 				D6B0C9AD20C567B100009569 /* SettingsTableViewController.swift */,
 				D6C9139D20AC266200BDD1C2 /* SignInController.swift */,
+				36A9BC1120C8AE4400A35DD3 /* SearchTableViewController.swift */,
 				D6936D8920C2C48F00C8DBC1 /* BroTableViewCell.swift */,
 				36A9BC0D20C890A200A35DD3 /* WaitTableViewCell.swift */,
+				36C87BD820C8C0AD00469251 /* SearchBroTableViewCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -335,10 +341,12 @@
 				D6936D8A20C2C48F00C8DBC1 /* BroTableViewCell.swift in Sources */,
 				D6C9139E20AC266200BDD1C2 /* SignInController.swift in Sources */,
 				D6B0C9AE20C567B100009569 /* SettingsTableViewController.swift in Sources */,
+				36A9BC1220C8AE4400A35DD3 /* SearchTableViewController.swift in Sources */,
 				D6936D8820C2C44C00C8DBC1 /* BroTableViewController.swift in Sources */,
 				D60FDC7C20B8370B00D7E8D4 /* User.swift in Sources */,
 				D65E45E420AAE01300FAC59D /* AppDelegate.swift in Sources */,
 				D625989820B6BD24008139F7 /* ApiRequest.swift in Sources */,
+				36C87BD920C8C0AD00469251 /* SearchBroTableViewCell.swift in Sources */,
 				D623CE9020BFDDA000F617F7 /* Position.swift in Sources */,
 				D6C9139C20AC235000BDD1C2 /* ConnectionController.swift in Sources */,
 				D6EC485820C17E7F005C9076 /* Bro.swift in Sources */,
