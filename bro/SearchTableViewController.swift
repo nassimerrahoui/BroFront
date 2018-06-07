@@ -36,10 +36,11 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating,
         }
 
         token = userDefault.string(forKey: "token")
-        searchController.searchResultsUpdater = self as UISearchResultsUpdating
+        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchBroBar.placeholder = "Search Possible Bros..."
-        self.tableView.tableHeaderView = searchBroBar
+        searchController.searchBar.placeholder = "Search Possible Bros..."
+        searchController.isActive = true
+        self.tableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
     }
     
@@ -67,15 +68,12 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating,
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchBroBar.text!)
+        filterContentForSearchText(searchController.searchBar.text!)
     }
     
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
-        if let searchBroBar = searchBroBar.text{
-            return searchBroBar.isEmpty 
-        }
-        return false
+        return searchController.searchBar.text?.isEmpty ?? true
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
@@ -105,10 +103,8 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating,
         }
         let bro: String
         if isFiltering() {
-            print("filter")
             bro = filteredBros[indexPath.row]
         } else {
-            print("no filter")
             bro = broPossibleList[indexPath.row]
         }
         cell.usernameLabel.text = bro
