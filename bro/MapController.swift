@@ -109,8 +109,8 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let annotationView = MKAnnotationView(annotation: pin, reuseIdentifier: "meme")
-        annotationView.image = UIImage(named: "meme1")
+        let annotationView = MKAnnotationView(annotation: pin, reuseIdentifier: "Pin")
+        annotationView.image = UIImage(named: "Pin")
         let transform = CGAffineTransform(scaleX: 0.5, y:0.5)
         annotationView.transform = transform
         return annotationView

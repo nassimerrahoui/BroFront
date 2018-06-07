@@ -770,6 +770,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="FuturBros" translatesAutoresizingMaskIntoConstraints="NO" id="ITg-pL-Xhj">
+                                            <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BAT-nx-u44">
                                             <rect key="frame" x="78" y="8" width="250" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -828,7 +832,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Trollface" width="480" height="438"/>
-        <image name="defaultImage" width="540" height="540"/>
+        <image name="FuturBros" width="447" height="393"/>
+        <image name="Trollface" width="431" height="403"/>
+        <image name="defaultImage" width="390" height="430"/>
     </resources>
 </document>
