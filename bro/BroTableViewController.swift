@@ -57,6 +57,7 @@ class BroTableViewController: UITableViewController {
                 }
             }
         }
+        self.isEditing = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -160,16 +161,12 @@ class BroTableViewController: UITableViewController {
             // Delete the row from the data source
             if let apiRequest = apiRequest {
             apiRequest.deny(token: token!, receiver: (cell?.usernameLabel.text)!) { (res) -> (Void) in
-                if res {
-                    self.broList.remove(at: indexPath.row)
-                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    if res {
+                        self.broList.remove(at: indexPath.row)
+                        self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
                 }
             }
-            }
-        }
-        else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-            //apiRequest.accept(sender: <#T##String#>, receiver: <#T##String#>, completion: <#T##((Bool) -> (Void))##((Bool) -> (Void))##(Bool) -> (Void)#>)
         }
     }
     
